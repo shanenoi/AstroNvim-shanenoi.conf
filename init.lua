@@ -37,6 +37,15 @@ local config = {
   options = {
     opt = {
       relativenumber = true, -- sets vim.opt.relativenumber
+      cul = true,
+      mouse = "",
+      autoread = true,
+      autowrite = true,
+      foldmethod = "indent",
+      foldexpr = "nvim_treesitter#foldexpr()",
+      splitbelow = false,
+      splitright = false,
+      guifont = "FiraCode NF:h10",
     },
     g = {
       mapleader = " ", -- sets vim.g.mapleader
@@ -93,6 +102,9 @@ local config = {
       --     require("lsp_signature").setup()
       --   end,
       -- },
+      {"fatih/vim-go"},
+      {"ray-x/go.nvim"},
+      {"ray-x/guihua.lua"},
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
@@ -224,6 +236,7 @@ local config = {
       ["gh"] = { ":lua vim.diagnostic.open_float() <cr>", desc = "Floating diagnostic" },
       ["<C-]>"] = { ":lua vim.lsp.buf.definition() <cr>", desc = "Floating diagnostic" },
       ["<leader>q"] = { ":lua vim.diagnostic.setloclist() <cr>", desc = "Diagnostic setloclist" },
+      ["<C-n>"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" },
       --[[
       --  
       --]]--
@@ -232,6 +245,9 @@ local config = {
       -- setting a mapping to false will disable it
       ["<esc>"] = false,
       ["<C-l>"] = false,
+      ["<leader>e"] = false,
+      ["<C-n>"] = false,
+      ["<C-p>"] = false,
     },
   },
 
@@ -247,6 +263,11 @@ local config = {
       pattern = "plugins.lua",
       command = "source <afile> | PackerSync",
     })
+
+    vim.cmd([[
+      :hi clear CursorLine
+      :hi CursorLine gui=underline cterm=underline
+    ]])
 
     -- Set up custom filetypes
     -- vim.filetype.add {
