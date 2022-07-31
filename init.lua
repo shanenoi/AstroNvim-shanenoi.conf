@@ -95,20 +95,33 @@ local config = {
 
       -- You can also add new plugins here as well:
       -- { "andweeb/presence.nvim" },
-      -- {
-      --   "ray-x/lsp_signature.nvim",
-      --   event = "BufRead",
-      --   config = function()
-      --     require("lsp_signature").setup()
-      --   end,
-      -- },
       {"fatih/vim-go"},
+      {"hexdigest/gounit-vim"},
+      {"mfussenegger/nvim-dap"},
       {"ray-x/go.nvim"},
       {"ray-x/guihua.lua"},
+      {
+        "ray-x/lsp_signature.nvim",
+        event = "BufRead",
+        config = function()
+          local cfg = {
+            bind = true, -- This is mandatory, otherwise border config won't get registered.
+            handler_opts = {
+              border = "rounded"
+            },
+            hint_prefix = " ",
+          }
+          require("lsp_signature").setup(cfg)
+        end,
+      },
+      {"simrat39/rust-tools.nvim"},
+      {"wakatime/vim-wakatime"},
+      {"ziglang/zig.vim"},
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
       local null_ls = require "null-ls"
+
       -- Check supported formatters and linters
       -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
       -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
@@ -135,7 +148,17 @@ local config = {
       ensure_installed = { "lua" },
     },
     ["nvim-lsp-installer"] = {
-      ensure_installed = { "sumneko_lua", "gopls", "golangci_lint_ls" },
+      ensure_installed = {
+        "clangd",
+        "golangci_lint_ls",
+        "gopls",
+        "hls",
+        "pylsp",
+        "pyright",
+        "rust_analyzer",
+        "sumneko_lua",
+        "tsserver",
+      },
     },
     packer = {
       compile_path = vim.fn.stdpath "data" .. "/packer_compiled.lua",
@@ -230,24 +253,21 @@ local config = {
     -- first key is the mode
     n = {
       -- second key is the lefthand side of the map
-      ["<C-s>"] = { ":w!<cr>", desc = "Save File" },
-      ["K"] = { ":lua vim.lsp.buf.hover() <cr>", desc = "Save File" },
-      ["<F2>"] = { ":lua vim.lsp.buf.rename() <cr>", desc = "Rename this definition" },
-      ["gh"] = { ":lua vim.diagnostic.open_float() <cr>", desc = "Floating diagnostic" },
       ["<C-]>"] = { ":lua vim.lsp.buf.definition() <cr>", desc = "Floating diagnostic" },
-      ["<leader>q"] = { ":lua vim.diagnostic.setloclist() <cr>", desc = "Diagnostic setloclist" },
       ["<C-n>"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" },
-      --[[
-      --  
-      --]]--
+      ["<C-s>"] = { ":w!<cr>", desc = "Save File" },
+      ["<F2>"] = { ":lua vim.lsp.buf.rename() <cr>", desc = "Rename this definition" },
+      ["<leader>q"] = { ":lua vim.diagnostic.setloclist() <cr>", desc = "Diagnostic setloclist" },
+      ["<C-k>"] = { ":lua vim.lsp.buf.hover() <cr>", desc = "Hover this impl" },
+      ["gh"] = { ":lua vim.diagnostic.open_float() <cr>", desc = "Floating diagnostic" },
     },
     t = {
       -- setting a mapping to false will disable it
-      ["<esc>"] = false,
       ["<C-l>"] = false,
-      ["<leader>e"] = false,
       ["<C-n>"] = false,
       ["<C-p>"] = false,
+      ["<esc>"] = false,
+      ["<leader>e"] = false,
     },
   },
 
