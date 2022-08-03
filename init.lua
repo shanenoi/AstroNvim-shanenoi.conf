@@ -18,7 +18,8 @@ local config = {
   },
 
   -- Set colorscheme
-  colorscheme = "default_theme",
+  colorscheme = "default",
+  -- colorscheme = "default_theme",
 
   -- Override highlight groups in any theme
   highlights = {
@@ -287,6 +288,7 @@ local config = {
     vim.cmd([[
       :hi clear CursorLine
       :hi CursorLine gui=underline cterm=underline
+      :hi! link SignColumn  Normal
     ]])
 
     -- Set up custom filetypes
