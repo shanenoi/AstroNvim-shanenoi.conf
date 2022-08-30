@@ -92,27 +92,39 @@ local config = {
     -- Add plugins, the packer syntax without the "use"
     init = {
       -- You can disable default plugins as follows:
-      -- ["goolord/alpha-nvim"] = { disable = true },
+      ["goolord/alpha-nvim"] = { disable = true },
 
       -- You can also add new plugins here as well:
       -- { "andweeb/presence.nvim" },
-      {"fatih/vim-go"},
-      {"hexdigest/gounit-vim"},
-      {"mfussenegger/nvim-dap"},
-      {"ray-x/go.nvim"},
-      {"ray-x/guihua.lua"},
+      { "fatih/vim-go" },
+      { "hexdigest/gounit-vim" },
+      { "mfussenegger/nvim-dap" },
+      { "ray-x/go.nvim" },
+      { "ray-x/guihua.lua" },
+      { "sebdah/vim-delve" },
       {
         "ray-x/lsp_signature.nvim",
         event = "BufRead",
         config = function()
           local cfg = {
-            bind = true, -- This is mandatory, otherwise border config won't get registered.
-            handler_opts = {
-              border = "rounded"
-            },
+            -- bind = true, -- This is mandatory, otherwise border config won't get registered.
+            -- doc_lines = 0,
+            -- floating_window = false,
+            -- padding = '|',
+            -- handler_opts = {
+            --   border = "shadow"
+            -- },
             hint_prefix = " ",
           }
-          require("lsp_signature").setup(cfg)
+          print(cfg)
+          require("lsp_signature").setup()
+        end,
+      },
+      {
+        "rust-lang/rust.vim",
+        event = "BufRead",
+        config = function()
+          vim.g.rust_clip_command = 'xclip -selection clipboard'
         end,
       },
       {"simrat39/rust-tools.nvim"},
@@ -288,7 +300,7 @@ local config = {
     vim.cmd([[
       :hi clear CursorLine
       :hi CursorLine gui=underline cterm=underline
-      :hi! link SignColumn  Normal
+      :hi! link SignColumn Normal
     ]])
 
     -- Set up custom filetypes
