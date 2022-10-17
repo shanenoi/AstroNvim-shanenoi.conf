@@ -163,7 +163,6 @@ local config = {
     ["nvim-lsp-installer"] = {
       ensure_installed = {
         "clangd",
-        "golangci_lint_ls",
         "gopls",
         "hls",
         "pylsp",
