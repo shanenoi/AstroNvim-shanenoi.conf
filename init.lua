@@ -1,5 +1,8 @@
-local config = {
+function SaveSS()
+  vim.cmd(string.format("mks /var/tmp/neovimbuff/B-%d.vim", os.time(os.date("!*t"))))
+end
 
+local config = {
   -- Configure AstroNvim updates
   updater = {
     remote = "origin", -- remote to use
@@ -300,6 +303,7 @@ local config = {
       :hi clear CursorLine
       :hi CursorLine gui=underline cterm=underline
       :hi! link SignColumn Normal
+      :set dir=~/.local/share/nvim/swap//
     ]])
 
     -- Set up custom filetypes
