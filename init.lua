@@ -99,6 +99,7 @@ local config = {
 
       -- You can also add new plugins here as well:
       -- { "andweeb/presence.nvim" },
+      { "iamcco/markdown-preview.nvim" },
       { "fatih/vim-go" },
       { "hexdigest/gounit-vim" },
       { "mfussenegger/nvim-dap" },
@@ -130,9 +131,9 @@ local config = {
           vim.g.rust_clip_command = 'xclip -selection clipboard'
         end,
       },
-      {"simrat39/rust-tools.nvim"},
-      {"wakatime/vim-wakatime"},
-      {"ziglang/zig.vim"},
+      { "simrat39/rust-tools.nvim" },
+      { "wakatime/vim-wakatime" },
+      { "ziglang/zig.vim" },
     },
     -- All other entries override the setup() call for default plugins
     ["null-ls"] = function(config)
@@ -230,6 +231,7 @@ local config = {
     mappings = {
       n = {
         -- ["<leader>lf"] = false -- disable formatting keymap
+        ["gT"] = false
       },
     },
     -- add to the server on_attach function
@@ -275,6 +277,7 @@ local config = {
       ["<leader>q"] = { ":lua vim.diagnostic.setloclist() <cr>", desc = "Diagnostic setloclist" },
       ["<C-k>"] = { ":lua vim.lsp.buf.hover() <cr>", desc = "Hover this impl" },
       ["gh"] = { ":lua vim.diagnostic.open_float() <cr>", desc = "Floating diagnostic" },
+      ["gT"] = { ":tabp <cr>", desc = "go to previous tab" },
     },
     t = {
       -- setting a mapping to false will disable it
@@ -283,6 +286,7 @@ local config = {
       ["<C-p>"] = false,
       ["<esc>"] = false,
       ["<leader>e"] = false,
+      ["gT"] = false,
     },
   },
 
@@ -291,6 +295,15 @@ local config = {
   polish = function()
     -- Set key binding
     -- Set autocommands
+
+    local builtins = {
+      "2html_plugin",
+    }
+
+    for _, plugin in ipairs(builtins) do
+      vim.g["loaded_" .. plugin] = 1
+    end
+
     vim.api.nvim_create_augroup("packer_conf", { clear = true })
     vim.api.nvim_create_autocmd("BufWritePost", {
       desc = "Sync packer after modifying plugins.lua",
@@ -303,7 +316,9 @@ local config = {
       :hi clear CursorLine
       :hi CursorLine gui=underline cterm=underline
       :hi! link SignColumn Normal
-      :set dir=~/.local/share/nvim/swap//
+
+      :let g:neovide_cursor_vfx_mode = "railgun"
+      :let g:neovide_scale_factor = 1.0
     ]])
 
     -- Set up custom filetypes
